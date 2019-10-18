@@ -41,12 +41,12 @@ class Detector:
                 yRightTop = int(detections[0, 0, i, 6] * rows)
 
                 cv.rectangle(img, (xLeftBottom, yLeftBottom), (xRightTop, yRightTop),
-                             (0, 0, 255))
+                             (23, 230, 210), thickness=2)
                 if class_id in classNames:
                     label = classNames[class_id] + ": " + str(confidence)
                     labelSize, baseLine = cv.getTextSize(label, cv.FONT_HERSHEY_SIMPLEX, 0.5, 1)
                     yLeftBottom = max(yLeftBottom, labelSize[1])
-                    cv.putText(img, label, (xLeftBottom+5, yLeftBottom), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0))
+                    cv.putText(img, label, (xLeftBottom+5, yLeftBottom), cv.FONT_HERSHEY_SIMPLEX, 1, (0,0,0))
 
         img = cv.imencode('.jpg', img)[1].tobytes()
         return img
