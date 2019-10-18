@@ -2,7 +2,18 @@ import cv2 as cv
 import numpy
 
 
-classNames = {0: 'background',1:'bak',2:'black',3:'blackpearl',4:'gold',5:'redrose',6:'sunrose',7:'xiangyu',8:'chixiazhu',9:'hongti',10:'meirenzhi',11:'redball'
+classNames = {
+              1:'bak',
+              2:'black',
+              3:'blackpearl',
+              4:'gold',
+              5:'redrose',
+              6:'sunrose',
+              7:'xiangyu',
+              8:'chixiazhu',
+              9:'hongti',
+              10:'meirenzhi',
+              11:'redball'
               }
 
 
