@@ -2,7 +2,7 @@ import cv2 as cv
 import numpy
 
 
-classNames = {
+classNames = {0:'background',
               1:'bak',
               2:'black',
               3:'blackpearl',
