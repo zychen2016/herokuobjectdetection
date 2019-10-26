@@ -35,35 +35,20 @@ def index():
 @app.route("/", methods=['POST'])
 def upload():
     if request.method == 'POST':
-        start=time.time()
+        startTime=time.time()
+        received_file = request.files['file']
+        imageFileName = received_file.filename
+        received_file.save(imageFilePath)
+        print('接收图片文件保存到此路径：%s' % imageFilePath)
+        usedTime = time.time() - startTime
+        print('接收图片并保存，总共耗时%.2f秒' % usedTime)
+        image = Image.open(imageFilePath)
         #file = Image.open(request.files['file'].stream)
-        data_bytes=request.get_data()
-        data = data_bytes.decode('utf-8')
-        data_dict = get_dataDict(data)
-        if 'image_base64_string' in data_dict:
-            # 保存接收的图片到指定文件夹
-            received_dirPath = '../resources/received_images'
-            if not os.path.isdir(received_dirPath):
-                os.makedirs(received_dirPath)
-            timeString = get_timeString()
-            imageFileName = timeString + '.jpg'
-            imageFilePath = os.path.join(received_dirPath, imageFileName)
-            try:
-                image_base64_string = data_dict['image_base64_string']
-                image_base64_bytes = image_base64_string.encode('utf-8')
-                image_bytes = base64.b64decode(image_base64_bytes)
-                with open(imageFilePath, 'wb') as file:
-                    file.write(image_bytes)
-                print('接收图片文件保存到此路径：%s' %imageFilePath)
-                usedTime = time.time() - startTime
-                print('接收图片并保存，总共耗时%.5f秒' %usedTime)
-                # 通过图片路径读取图像数据，并对图像数据做目标检测
-                startTime = time.time()
-                image = Image.open(imageFilePath)
-                img = detector.detectObject(image)
-                print("time for saving is %s"%str(end-start))
-                return send_file(io.BytesIO(img),attachment_filename='image.jpg',mimetype='image/jpg')
-            except Exception as e:
-                print(e)
+        start=time.time()
+        img = detector.detectObject(image)
+        end=time.time()
+        print("time for saving is %s"%str(end-start))
+     return send_file(io.BytesIO(img),attachment_filename='image.jpg',mimetype='image/jpg')
+
 if __name__ == "__main__":
     app.run()
