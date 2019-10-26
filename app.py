@@ -24,7 +24,7 @@ def upload():
     if request.method == 'POST':
         start=time.time()
         file = Image.open(request.files['file'].stream)
-        end=time()-time()
+        end=time.time()
         print("time for saving is %s"%str(end-start))
         img = detector.detectObject(file)
         return send_file(io.BytesIO(img),attachment_filename='image.jpg',mimetype='image/jpg')
