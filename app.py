@@ -30,9 +30,26 @@ def index():
 @app.route("/", methods=['POST'])
 def upload():
     if request.method == 'POST':
-        file = Image.open(request.files['file'].stream)
-        img = detector.detectObject(file)
-        return send_file(io.BytesIO(img),attachment_filename='image.jpg',mimetype='image/jpg')
+        startTime=time.time()
+        received_file = request.files['file']
+        imageFileName = received_file.filename
+        if received_file:
+            # 保存接收的图片到指定文件夹
+            received_dirPath = './resources/received_images'
+            if not os.path.isdir(received_dirPath):
+                os.makedirs(received_dirPath)
+            imageFilePath = os.path.join(received_dirPath, imageFileName)
+            received_file.save(imageFilePath)
+            print('接收图片文件保存到此路径：%s' % imageFilePath)
+            usedTime = time.time() - startTime
+            print('接收图片并保存，总共耗时%.2f秒' % usedTime)
+            image = Image.open(imageFilePath)
+            #file = Image.open(request.files['file'].stream)
+            start=time.time()
+            img = detector.detectObject(image)
+            end=time.time()
+            print("time for saving is %s"%str(end-start))
+            return send_file(io.BytesIO(img),attachment_filename='image.jpg',mimetype='image/jpg')
 
 if __name__ == "__main__":
     app.run()
