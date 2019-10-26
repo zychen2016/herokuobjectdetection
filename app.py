@@ -48,7 +48,7 @@ def upload():
         img = detector.detectObject(image)
         end=time.time()
         print("time for saving is %s"%str(end-start))
-     return send_file(io.BytesIO(img),attachment_filename='image.jpg',mimetype='image/jpg')
+        return send_file(io.BytesIO(img),attachment_filename='image.jpg',mimetype='image/jpg')
 
 if __name__ == "__main__":
     app.run()
