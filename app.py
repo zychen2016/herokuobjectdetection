@@ -6,7 +6,7 @@ from flask import Flask, render_template, request
 from PIL import Image
 from flask import send_file
 import time
-from urlib.parse import unquote
+from urllib.parse import unquote
 def get_dataDict(data):
     data_dict={}
     for text in data.split("&"):
