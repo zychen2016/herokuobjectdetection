@@ -5,7 +5,7 @@ from flask import Flask, render_template, request
 
 from PIL import Image
 from flask import send_file
-
+import time
 app = Flask(__name__)
 
 detector = Detector()
@@ -22,7 +22,10 @@ def index():
 @app.route("/", methods=['POST'])
 def upload():
     if request.method == 'POST':
+        start=time.time()
         file = Image.open(request.files['file'].stream)
+        end=time()-time()
+        print("time for saving is %s"%str(end-start))
         img = detector.detectObject(file)
         return send_file(io.BytesIO(img),attachment_filename='image.jpg',mimetype='image/jpg')
 
